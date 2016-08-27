@@ -1,0 +1,94 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.LoginResponse;
+import com.itheima.rbclient.ui.activity.CheckInvoiceActivity;
+import com.itheima.rbclient.ui.activity.CheckModeActivity;
+import com.itheima.rbclient.ui.activity.CheckTimeActivity;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import butterknife.OnClick;
+
+public class CheckOutFragment extends BaseFragment implements HttpLoader.HttpListener {
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //登陆
+        String username = "test";
+        String pwd = "test";
+        HttpParams p = new HttpParams().put("username", username).put("password", pwd);
+        App.HL.post(RBConstants.URL_LOGIN,p,LoginResponse.class, RBConstants.REQUEST_CODE_LOGIN, this);
+
+        View view = iniView();
+        return view;
+    }
+
+    /**
+     * 初始化界面
+     */
+    private View iniView() {
+        View view = View.inflate(App.context,R.layout.fragment_check_out,null);
+        return view;
+    }
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+    @OnClick({R.id.tv_check_mode,R.id.tv_check_time,R.id.tv_check_invoice})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_check_mode:  //支付方式
+                Intent intent = new Intent(App.context, CheckModeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+            case R.id.tv_check_time:  //送货时间
+                Intent intent2 = new Intent(App.context, CheckTimeActivity.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent2);
+                break;
+            case R.id.tv_check_invoice:  //送货时间
+                Intent intent3 = new Intent(App.context, CheckInvoiceActivity.class);
+                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent3);
+                break;
+        }
+    }
+}

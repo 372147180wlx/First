@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/title_style"
+                android:text="结算中心" />
+
+            <Button
+                android:id="@+id/btn_back_cart"
+                android:text="购物车"
+                style="@style/head_button" />
+            <Button
+                android:id="@+id/btn_commitcheck"
+                android:text="提交订单"
+                android:layout_alignParentRight="true"
+                style="@style/head_button" />
+        </RelativeLayout>
+        <!--<include layout="@layout/item_cart_header"/>-->
+    <!---->
+    <RelativeLayout
+        android:background="@drawable/segment_bg"
+        android:id="@+id/tv_ddinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:text="订单信息"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow1"
+            android:id="@+id/iv_arrow1"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv_five"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ll_five"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_check_address"
+            android:orientation="vertical"
+            android:background="@drawable/listview_41bg_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:padding="10dp"
+            android:text="收货人信息"
+            style="@style/TitleText" />
+            <TextView
+                android:visibility="gone"
+            android:text="hhhhhhh"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tv_check_address_sub1"
+            style="@style/SubTitleText"
+            />
+            <TextView
+                android:visibility="gone"
+                android:text="hhhhhhh"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/tv_check_address_sub2"
+                style="@style/SubTitleText"
+                />
+            <TextView
+                android:visibility="gone"
+                android:text="hhhhhhh"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/tv_check_address_sub3"
+                style="@style/SubTitleText"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_check_mode"
+            android:orientation="horizontal"
+            android:background="@drawable/listview_41bg_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:padding="10dp"
+                android:text="支付方式"
+                style="@style/TitleText" />
+            <TextView
+                android:id="@+id/tv_check_mode_sub"
+                style="@style/SubTitleText"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_check_time"
+            android:orientation="vertical"
+            android:background="@drawable/listview_41bg_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="送货时间"
+            style="@style/TitleText" />
+        <TextView
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tv_check_time_sub"
+            style="@style/SubTitleText"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_check_sendtype"
+            android:orientation="horizontal"
+            android:background="@drawable/listview_41bg_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:text="送货方式"
+            style="@style/TitleText" />
+            <TextView
+                 android:text="快递"
+                style="@style/SubTitleText"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_check_invoice"
+            android:orientation="horizontal"
+            android:background="@drawable/listview_41bg_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:text="索取发票"
+            style="@style/TitleText" />
+            <TextView
+                android:id="@+id/tv_check_invoice_sub"
+                style="@style/SubTitleText"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+    <!---->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/lv_cart"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </ListView>
+    <!--尾部-->
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/product_detail_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="数量总计:"
+                android:layout_width="wrap_content"
+                style="@style/TitleText" />
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_count"
+                android:text="hehe"
+                android:layout_width="wrap_content"
+                style="@style/TitleText" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                style="@style/TitleText"
+                android:text="运费:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_yf"
+                style="@style/TitleText"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                style="@style/TitleText"
+                android:text="积分总计:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_yhj"
+                style="@style/TitleText"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                style="@style/TitleText"
+                android:text="应支付金额：(不含运费)"/>
+            <TextView
+                android:textColor="@color/txt_red"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_total"
+                style="@style/TitleText"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+        <TextView
+            android:text="您可以享受一下优惠:"
+            style="@style/TitleText" />
+        <TextView
+            android:id="@+id/tv_yh"
+            android:textColor="@color/txt_red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/product_detail_shop_selected"
+            />
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_gravity="center_horizontal"
+        android:text="提交订单"
+        android:background="@drawable/bar_head_button_bg_red"
+        style="@style/head_button" />
+    </LinearLayout>
+
+</LinearLayout>
+

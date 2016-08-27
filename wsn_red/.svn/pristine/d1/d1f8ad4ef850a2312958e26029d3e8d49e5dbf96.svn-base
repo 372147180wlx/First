@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+            <!--style="@style/title_style"-->
+            <!--android:text="搜索结果（0）条" />-->
+        <!--<Button-->
+            <!--android:paddingRight="20dp"-->
+            <!--android:id="@+id/btn_search_empty_goback"-->
+            <!--android:text="返回"-->
+            <!--style="@style/head_back" />-->
+
+    <!--</RelativeLayout>-->
+    <!--<RadioGroup-->
+        <!--android:id="@+id/rg_content_fragment"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:orientation="horizontal" >-->
+
+        <!--<RadioButton-->
+            <!--android:textColor="@drawable/title_searchresult_text_color"-->
+            <!--android:checked="true"-->
+            <!--android:id="@+id/rb_content_fragment_home"-->
+            <!--style="@style/seaech_result_tab_style"-->
+            <!--android:background="@drawable/title_selectresult_firstbutton_bg"-->
+            <!--android:text="销量" />-->
+
+        <!--<RadioButton-->
+            <!--android:textColor="@drawable/title_searchresult_text_color"-->
+            <!--android:id="@+id/rb_content_fragment_search"-->
+            <!--style="@style/seaech_result_tab_style"-->
+            <!--android:background="@drawable/title_selectresult_middlebutton_bg"-->
+            <!--android:text="价格" />-->
+
+        <!--<RadioButton-->
+            <!--android:textColor="@drawable/title_searchresult_text_color"-->
+            <!--android:id="@+id/rb_content_fragment_brand"-->
+            <!--style="@style/seaech_result_tab_style"-->
+            <!--android:background="@drawable/title_selectresult_middlebutton_bg"-->
+            <!--android:text="好评度" />-->
+
+        <!--<RadioButton-->
+            <!--android:textColor="@drawable/title_searchresult_text_color"-->
+            <!--android:id="@+id/rb_content_fragment_shopping"-->
+            <!--style="@style/seaech_result_tab_style"-->
+            <!--android:background="@drawable/title_selectresult_lastbutton_bg"-->
+            <!--android:text="上架时间" />-->
+
+    <!--</RadioGroup>-->
+
+   <!--<ListView-->
+       <!--android:id="@+id/lv_serach_content"-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="0dp"-->
+       <!--android:layout_weight="1">-->
+       <!---->
+   <!--</ListView>-->
+
+
+</LinearLayout>
+

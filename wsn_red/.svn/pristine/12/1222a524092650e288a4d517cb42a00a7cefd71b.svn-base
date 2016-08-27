@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/title_style"
+                android:text="结算中心" />
+
+            <Button
+                android:id="@+id/btn_back_cart"
+                android:text="购物车"
+                style="@style/head_button" />
+            <Button
+                android:id="@+id/btn_commitcheck"
+                android:text="提交订单"
+                android:layout_alignParentRight="true"
+                style="@style/head_button" />
+        </RelativeLayout>
+        <!--<include layout="@layout/item_cart_header"/>-->
+    <!---->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="10dp"
+            android:text="收货人信息"
+            android:background="@drawable/listview_41bg_normal"
+            style="@style/TitleText" />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_check_mode"
+            android:text="支付方式"
+            android:background="@drawable/listview_41bg_normal"
+            style="@style/TitleText" />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_check_time"
+            android:text="送货时间"
+            android:background="@drawable/listview_41bg_normal"
+            style="@style/TitleText" />
+        <TextView
+            android:padding="10dp"
+            android:text="送货方式"
+            android:background="@drawable/listview_41bg_normal"
+            style="@style/TitleText" />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_check_invoice"
+            android:text="索取发票"
+            android:background="@drawable/listview_41bg_normal"
+            style="@style/TitleText" />
+
+    </LinearLayout>
+    <!---->
+        <ListView
+            android:id="@+id/lv_cart"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </ListView>
+    <!--尾部-->
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/product_detail_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="数量总计:"
+                android:layout_width="wrap_content"
+                style="@style/TitleText" />
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_count"
+                android:text="hehe"
+                android:layout_width="wrap_content"
+                style="@style/TitleText" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                style="@style/TitleText"
+                android:text="赠送积分:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_jf"
+                style="@style/TitleText"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                style="@style/TitleText"
+                android:text="商品总金额：(不含运费)"/>
+            <TextView
+                android:textColor="@color/txt_red"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_cartheader_total"
+                style="@style/TitleText"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_gohome"
+        android:layout_gravity="center_horizontal"
+        android:text="提交订单"
+        android:background="@drawable/bar_head_button_bg_red"
+        style="@style/head_button" />
+
+    </LinearLayout>
+

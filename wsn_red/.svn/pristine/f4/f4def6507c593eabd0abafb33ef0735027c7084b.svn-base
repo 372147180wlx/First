@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_checkout_commontitle"
+            style="@style/title_style"
+            android:text="地址列表" />
+
+        <Button
+            android:id="@+id/btn_back_check"
+            android:text="结算中心"
+            style="@style/head_button" />
+    </RelativeLayout>
+
+    <TextView
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        style="@style/TitleText"
+        android:text="收货地址" />
+
+    <ListView
+        android:id="@+id/lv_check_address"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

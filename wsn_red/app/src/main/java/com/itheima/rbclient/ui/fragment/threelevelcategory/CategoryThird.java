@@ -1,0 +1,135 @@
+package com.itheima.rbclient.ui.fragment.threelevelcategory;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.CategoryFirstAdapter;
+import com.itheima.rbclient.bean.CategoryResponse;
+import com.itheima.rbclient.protocol.Api;
+import com.itheima.rbclient.ui.fragment.BaseFragment;
+import com.itheima.rbclient.ui.fragment.FragmentInstanceManager;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+
+/**
+ * Created by zhaoqiang on 2016/8/9 0009.
+ */
+public class CategoryThird extends BaseFragment implements HttpLoader.HttpListener {
+
+    @InjectView(R.id.lv_category_list)
+    ListView lv_category_list;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.tv_category_emp)
+    TextView tv_category_emp;
+    private List<CategoryResponse.CategoryBean> category;
+    private CategoryFirstAdapter adapter;
+    private String title;
+    private List list;
+    private int parentId = 11;
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);//登记EventBus
+        return inflater.inflate(R.layout.category_fragment, null);
+    }
+
+    @Override
+    public void onResume() {//在fragment可见时再设置标题，保证此时已获取到传递过来的数据
+        super.onResume();
+        if (title != null) {
+            tv_title.setText(title);
+        }
+
+        list = new ArrayList();
+        for (CategoryResponse.CategoryBean categorybean : category) {
+//                if (categorybean.parentId > 10) {//获取三级分类的数据
+            if (categorybean.parentId == parentId) {//获取三级分类的数据
+                list.add(categorybean);
+            }
+        }
+
+        //设置条目点击事件，开启商品列表界面
+        lv_category_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    EventBus.getDefault().post(list.get(position));//把点击条目对象传递过去
+                //category.size() - list.size()为一二级条目总和，再加position表示category对应的点击位置
+                //只有点击位置是isLeafNode为true时才能跳转商品列表
+                if (category.get(category.size() - list.size() + position).isLeafNode) {
+                    swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(CategoryProduct.class), true);
+                } else {
+                    Toast.makeText(getActivity(), "已经售空了哦亲！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        if(list.size() == 0) {
+            tv_category_emp.setVisibility(View.VISIBLE);
+            lv_category_list.setVisibility(View.GONE);
+        }else {
+            tv_category_emp.setVisibility(View.GONE);
+            lv_category_list.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged(list);
+        }
+    }
+
+    public void onEvent(CategoryResponse.CategoryBean categoryBean) {//接收传递过来的对象数据
+        title = categoryBean.name;
+        parentId = categoryBean.id;
+    }
+
+    @Override
+    protected void initData() {
+        category = new ArrayList<>();
+        adapter = new CategoryFirstAdapter(category);
+        lv_category_list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        Api.getCategoryData(this).setTag(this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_CATEGORY && response instanceof CategoryResponse) {
+            category = ((CategoryResponse) response).category;
+
+        }
+
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+}

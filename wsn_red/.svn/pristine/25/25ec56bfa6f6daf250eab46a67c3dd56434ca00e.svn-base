@@ -1,0 +1,34 @@
+package com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.ui.fragment.BaseFragment;
+
+/**
+ * Created by lingxin on 2016/8/7.
+ */
+public class MyOrderFragment extends BaseFragment {
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.more_myorder,null);
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+
+    }
+}

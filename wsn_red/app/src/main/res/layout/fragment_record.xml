@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#d90000"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bar_head_button_bg"
+            android:text="更多"
+            android:textColor="#fff"/>
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="浏览记录"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+        <Button
+            android:id="@+id/commit"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bar_head_button_bg"
+            android:text="清空"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_record"
+       >
+    </ListView>
+</LinearLayout>

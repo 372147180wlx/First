@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="txt_title">#ff333333</color>
+    <color name="txt_small">#ff7a7a7a</color>
+    <color name="gray">#557a7a7a</color>
+    <color name="txt_red">#ff0000</color>
+
+</resources>

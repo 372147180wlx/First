@@ -1,0 +1,103 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.LimitbutAdapter;
+import com.itheima.rbclient.bean.LimitResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+
+/**
+ * Created by Administrator on 2016/8/6 0006.
+ */
+public class LimitbuyFragment extends BaseFragment implements HttpLoader.HttpListener {
+
+    @InjectView(R.id.lv_limit_list)
+    ListView lvLimitList;
+    private List<LimitResponse.ProductListBean> productList;
+    private LimitbutAdapter adapter;
+
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.limitbuy_fragment, null);
+    }
+
+    @Override
+    protected void initData() {
+        productList=new ArrayList<>();
+        adapter =new LimitbutAdapter(productList);
+        lvLimitList.setAdapter(adapter);
+        lvLimitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //显示抢购条目点击事件跳转
+                EventBus.getDefault().postSticky(productList.get(position));//跳转获取浏览记录
+                System.out.println("jdsklihv olkd"+productList.get(position));
+            }
+        });
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params=new HttpParams();
+        params.put("page","1").put("pageNum","8");
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_LIMITBUY,params, LimitResponse.class,RBConstants.REQUEST_CODE_LIMITBUY,this).setTag(this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if(requestCode == RBConstants.REQUEST_CODE_LIMITBUY&& response instanceof LimitResponse){
+            productList=((LimitResponse) response).productList;
+            adapter.notifyDataSetChanged(productList);
+
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+}

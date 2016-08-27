@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#d90000">
+        <Button
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/head_back_normal"
+            android:text="返回"
+            android:textColor="#fff"/>
+        <TextView
+           android:layout_toRightOf="@id/back"
+            style="@style/tab_style"
+            android:layout_height="250dp"
+            android:layout_width="match_parent"
+            android:text="帮助中心"
+            android:layout_marginRight="50dp"
+            android:textSize="25sp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/product_detail_shop_selected"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_guide"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dip"
+            android:background="@drawable/listview_41bg_normal"
+            android:padding="5dp" >
+            <TextView
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:padding="2dp"
+                android:text="购物指南："
+                android:textSize="26sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_severce"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dip"
+            android:background="@drawable/listview_41bg_normal"
+            android:padding="5dp" >
+            <TextView
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:padding="2dp"
+                android:text="售后服务："
+                android:textSize="26sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_function"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dip"
+            android:background="@drawable/listview_41bg_normal"
+            android:padding="5dp" >
+            <TextView
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:padding="2dp"
+                android:text="配送方式："
+                android:textSize="26sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView
+
+        android:layout_marginTop="45dp"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/product_detail_shop_normal"
+        android:text="客服电话：400—8*******"
+        android:textColor="#ffffff"
+        android:textSize="26sp"/>
+</LinearLayout>

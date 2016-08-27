@@ -1,0 +1,35 @@
+package com.itheima.rbclient.bean;
+
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016/8/9.
+ */
+public class RecordResponse  implements IResponse {
+    public static class RecordBean {
+        public int commentCount;
+        public int limitPrice;
+        public int marketPrice;
+        public List<String> pics;
+        public String name;
+    }
+
+    public List<ProductRecordBean> getProductRecord() {
+        return productRecord;
+    }
+
+    public void setProductRecord(List<ProductRecordBean> productRecord) {
+        this.productRecord = productRecord;
+    }
+
+    public List<ProductRecordBean> productRecord;
+        public static class ProductRecordBean {
+            public List<String> pics;
+            public int marketPrice;
+            public String name;
+            public int price;
+            public int commentCount;
+        }
+}

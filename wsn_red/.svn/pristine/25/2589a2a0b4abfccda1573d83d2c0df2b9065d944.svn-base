@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+  <!--  <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/title_style"
+            android:text="搜索结果（0）条" />
+        <Button
+            android:paddingRight="20dp"
+            android:id="@+id/btn_search_empty_goback"
+            android:text="返回"
+            style="@style/head_back" />
+
+    </RelativeLayout>-->
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <ImageView
+            android:layout_centerInParent="true"
+            android:src="@drawable/empty_prod_img"
+            android:layout_width="match_parent"
+            android:layout_height="280dp" />
+        <Button
+            android:id="@+id/btn_detail_error"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/btn_bg"
+            android:textSize="14dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="当前商品不存在或网络错误，点击重试"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>

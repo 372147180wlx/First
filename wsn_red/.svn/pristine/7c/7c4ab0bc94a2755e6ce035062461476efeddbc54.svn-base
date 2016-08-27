@@ -1,0 +1,142 @@
+package com.itheima.rbclient.ui.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.AddressEvent;
+import com.itheima.rbclient.bean.CheckAddressResponse;
+import com.itheima.rbclient.utils.Preutils;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
+
+public class CheckAddressActivity extends AppCompatActivity implements HttpLoader.HttpListener,View.OnClickListener {
+
+    private Button btn_back_check;
+    private ListView lv_check_address;
+    private ArrayList<CheckAddressResponse.AddressListBean> addList;
+    private CheckAddressAdapter addressAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.checkout_address);
+        btn_back_check = (Button) findViewById(R.id.btn_back_check);
+        btn_back_check.setOnClickListener(this);
+        lv_check_address = (ListView) findViewById(R.id.lv_check_address);
+        lv_check_address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventBus.getDefault().postSticky(new AddressEvent(addList.get(position))); //返回地址
+                finish();
+            }
+        });
+        iniData();
+    }
+
+
+    /**
+     * 初始化数据
+     */
+    private void iniData() {
+        addList = new ArrayList<>();
+        addressAdapter = new CheckAddressAdapter(addList);
+        lv_check_address.setAdapter(addressAdapter);
+        requestNetData();
+    }
+
+    protected void requestNetData() {
+
+        //请求数据
+        String url = RBConstants.URL_CHECK_ADDRESS;
+        HttpParams params = new HttpParams();
+        params.addHeader("userid", Preutils.getString(App.context, "userid",""));
+        Class<? extends IResponse> clazz = CheckAddressResponse.class;
+        int requestcode = RBConstants.REQUEST_CODE_APP_CHECKADDRESS;
+        App.HL.get(url, params, clazz, requestcode, this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_APP_CHECKADDRESS && response instanceof CheckAddressResponse) {
+            CheckAddressResponse resp = (CheckAddressResponse) response;
+            addList = (ArrayList<CheckAddressResponse.AddressListBean>) resp.addressList;
+        }
+        addressAdapter.notifyDataSetChanged(addList);
+    }
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back_check:   //返回
+                //EventBus.getDefault().postSticky(new PayModeEvent(modeState)); //返回选择的支付方式
+                finish();
+                break;
+        }
+    }
+}
+
+class CheckAddressAdapter extends BaseAdapter {
+    private TextView tv_address_sub1;
+    private TextView tv_address_sub2;
+    private TextView tv_address_sub3;
+    private TextView tv_address_sub4;
+    private ArrayList<CheckAddressResponse.AddressListBean> mList = new ArrayList<>();
+    public CheckAddressAdapter(ArrayList<CheckAddressResponse.AddressListBean> data) {
+        this.mList = data;
+    }
+    public void notifyDataSetChanged(ArrayList<CheckAddressResponse.AddressListBean> newData) {
+        this.mList = newData;
+        notifyDataSetChanged();
+    }
+    @Override
+    public int getCount() {
+        return mList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if(convertView == null) {
+            convertView = View.inflate(App.context,R.layout.item_check_address,null);
+            tv_address_sub1 = (TextView) convertView.findViewById(R.id.tv_address_sub1);
+            tv_address_sub2 = (TextView) convertView.findViewById(R.id.tv_address_sub2);
+            tv_address_sub3 = (TextView) convertView.findViewById(R.id.tv_address_sub3);
+            tv_address_sub4 = (TextView) convertView.findViewById(R.id.tv_address_sub4);
+        }
+        tv_address_sub1.setText(mList.get(position).name);
+        tv_address_sub2.setText(mList.get(position).phoneNumber);
+        tv_address_sub3.setText(mList.get(position).province+mList.get(position).city+mList.get(position).addressArea);
+        tv_address_sub4.setText(mList.get(position).addressDetail);
+        return convertView;
+    }
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--标题栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#D90000">
+
+        <Button
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/bt_more_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/head_button_normal"
+            android:text="地址管理"
+            android:textColor="#fff" />
+
+
+        <TextView
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#fff"
+            android:text="新增地址" />
+
+        <Button
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/bt_more_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/head_button_normal"
+            android:text="保存"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_user"
+                style="@style/TitleText"
+                android:layout_width="match_parent"
+                android:layout_alignParentLeft="true"
+                android:hint="收货人( 必填 )"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/TitleText"
+                android:layout_width="match_parent"
+                android:layout_alignParentLeft="true"
+                android:hint="手机( 必填 )"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_area"
+                style="@style/TitleText"
+                android:layout_width="match_parent"
+                android:layout_alignParentLeft="true"
+                android:hint="省市区( 必填 )"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_detailed"
+                style="@style/TitleText"
+                android:layout_width="match_parent"
+                android:layout_alignParentLeft="true"
+                android:hint="详细地址( 必填 )"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

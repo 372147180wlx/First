@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:descendantFocusability="afterDescendants"
+    android:background="@drawable/listview_41bg_normal">
+
+    <ImageView
+        android:id="@+id/iv_cart_image"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/product_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="6dp"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_cart_des"
+            android:text="商品名称描述信息"
+            style="@style/TitleText"
+            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+            <TextView
+                style="@style/SubTitleText"
+                android:layout_width="wrap_content"
+                android:text="数量："/>
+                <Button
+                    android:focusable="false"
+                    android:id="@+id/ib_next"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_find_next_holo_light"
+                    android:visibility="visible"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <TextView
+                android:id="@+id/tv_cart_count"
+                style="@style/SubTitleText"
+                android:layout_width="wrap_content"
+                android:text="1"/>
+                <Button
+                    android:focusable="false"
+                    android:id="@+id/ib_previous"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_find_previous_holo_light"
+                    android:visibility="visible"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_cart_size"
+                style="@style/SubTitleText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="尺寸：M"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_cart_color"
+                style="@style/SubTitleText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="颜色：灰"/>
+            <TextView
+                android:id="@+id/tv_cart_price"
+                style="@style/SubTitleText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/txt_red"
+                android:text="价格：￥181.00"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_cart_total"
+            style="@style/SubTitleText"
+            android:textColor="@color/txt_red"
+            android:text="小计：￥181.00"/>
+            
+    </LinearLayout>
+
+</LinearLayout>

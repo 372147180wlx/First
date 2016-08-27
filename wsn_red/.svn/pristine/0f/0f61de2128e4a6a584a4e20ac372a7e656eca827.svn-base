@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/title_style"
+        android:text="商品筛选" />
+
+    <RadioGroup
+        android:id="@+id/rg_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_bg"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:layout_margin="6dp"
+            android:textSize="18dp"
+            android:id="@+id/rb_category_all"
+            style="@style/tab_style"
+            android:text="全部" />
+
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/rb_category_brand"
+            style="@style/tab_style"
+            android:text="品牌" />
+
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/rb_category_price"
+            style="@style/tab_style"
+            android:text="价格" />
+
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/rb_category_color"
+            style="@style/tab_style"
+            android:text="颜色" />
+
+    </RadioGroup>
+
+    <ListView
+        android:listSelector="@null"
+        android:id="@+id/lv_category_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+</LinearLayout>

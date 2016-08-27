@@ -1,0 +1,100 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.adapter.RecordAdapter;
+import com.itheima.rbclient.bean.AppDetailEvent;
+import com.itheima.rbclient.bean.AppDetailResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
+
+/**
+ * Created by Administrator on 2016/8/6.
+ */
+public class RecordFragment extends BaseFragment implements HttpLoader.HttpListener {
+    private ListView lv_record;
+    private Button back;
+    private List<AppDetailResponse.ProductBean> record;
+    public String name;
+    public RecordAdapter adapter;
+    private SharedPreferences sp;
+    private String sendId;//获取详情界面保存的id
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(App.context, R.layout.fragment_record, null);
+        EventBus.getDefault().registerSticky(this);
+
+        sp = getActivity().getSharedPreferences("memory",0);
+        sendId = sp.getString("sendMemory", "");
+        Log.e("sendId","----------------"+sendId);
+        //裁剪字符串得到字符串数组
+        String[] split = sendId.split("&");
+
+        for (int i = 0; i < split.length; i++) {
+            //得到所有点击过的商品id
+            String s = split[i];
+            Log.e("getOne","====================="+s);
+        }
+
+        lv_record = (ListView) view.findViewById(R.id.lv_record);
+        back = (Button) view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainActivity.switchFragment(FragmentInstanceManager.getInstance().getFragment(MoreFragment.class));
+            }
+        });
+        return view;
+    }
+
+    @Override
+    protected void initData() {
+        record = new ArrayList<>();
+        adapter = new RecordAdapter(record);
+        lv_record.setAdapter(adapter);
+        System.out.println("去去去去去去");
+    }
+
+    public void onEvent(Object event) {
+        System.out.println("ninnnnnnnnnnnnnnnnn");
+        if (event instanceof AppDetailEvent) {
+            AppDetailResponse.ProductBean Revent = (AppDetailResponse.ProductBean) event;
+            record.add(Revent);
+            EventBus.getDefault().postSticky(record);
+            adapter.notifyDataSetChanged(record);
+        }
+    }
+
+    @Override
+    protected void handleUserInput() {
+    }
+
+    @Override
+    protected void requestNetData() {
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+    }
+}

@@ -1,0 +1,187 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.HomeAdapter;
+import com.itheima.rbclient.adapter.VpHomeAdapter;
+import com.itheima.rbclient.bean.HomeVPResponse;
+import com.itheima.rbclient.bean.LoginResponse;
+import com.itheima.rbclient.protocol.Api;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+
+public class HomeFragment extends BaseFragment implements HttpLoader.HttpListener, View.OnClickListener {
+
+    @InjectView(R.id.lv_home)
+    ListView lvHome;
+    @InjectView(R.id.vp_header)
+    ViewPager vpHeader;
+    @InjectView(R.id.login)
+    EditText login;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            //切换下一页
+            vpHeader.setCurrentItem(vpHeader.getCurrentItem() + 1);
+            //继续发送空消息
+            handler.sendEmptyMessageDelayed(0, 2000);
+            super.handleMessage(msg);
+        }
+    };
+    private List<HomeVPResponse.HomeTopicBean> homeTopic;
+    private VpHomeAdapter adapter;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //ViewPager轮播启动
+        handler.sendEmptyMessageDelayed(0, 2000);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //移除消息
+        handler.removeMessages(0);
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.list_home, null);
+    }
+
+
+    @Override
+    protected void initData() {
+        //ViewPager填充数据
+        homeTopic = new ArrayList<HomeVPResponse.HomeTopicBean>();
+        adapter = new VpHomeAdapter(homeTopic);
+        vpHeader.setAdapter(adapter);
+        vpHeader.setCurrentItem(1000000 * 6 / 2);
+        //ListView填充数据
+        lvHome.setAdapter(new HomeAdapter());
+
+    }
+
+
+    /**
+     * 请求网络的方法
+     */
+    @Override
+    protected void requestNetData() {
+        //从网络上请求数据
+        Api.getHomeData(this).setTag(this);
+
+    }
+
+
+    @Override
+    protected void handleUserInput() {
+
+        //登录
+        login.setOnClickListener(this);
+
+
+        lvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //头布局个数
+                int headerViewCount = lvHome.getHeaderViewsCount();
+                position -= headerViewCount;
+
+                switch (position) {
+                    case 0:
+                        Toast.makeText(getActivity(), "限时抢购", Toast.LENGTH_SHORT).show();
+                        swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(LimitbuyFragment.class), true);
+                        break;
+                    case 1:
+                        swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(TopicFragment.class), true);
+                        Toast.makeText(getActivity(), "促销快报", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(NewproductFragment.class), true);
+                        Toast.makeText(getActivity(), "新品上架", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(HotproductFragment.class), true);
+                        Toast.makeText(getActivity(), "热门单品", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+
+                        Toast.makeText(getActivity(), "推荐品牌", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        swichToChildFragment(new SearchFragment(), true);
+                        Toast.makeText(getActivity(), "分类列表", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_HOME_LIST && response instanceof HomeVPResponse) {
+            homeTopic = ((HomeVPResponse) response).homeTopic;
+            System.out.println("拿到数据啦" + homeTopic.toString());
+        }
+        adapter.notifyDataSetChanged(homeTopic);
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+        System.out.println("没拿到数据");
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        String username = "test";
+        String pwd = "test";
+        HttpParams p = new HttpParams()
+                .put("username", username)
+                .put("password", pwd);
+
+        App.HL.post(RBConstants.URL_LOGIN, p, LoginResponse.class, RBConstants.REQUEST_CODE_LOGIN, this);
+
+    }
+}

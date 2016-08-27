@@ -1,0 +1,33 @@
+package com.itheima.rbclient.bean;
+
+import org.senydevpkg.net.resp.IResponse;
+
+/**
+ * Created by lingxin on 2016/8/7.
+ */
+public class AccountCenterResponse implements IResponse {
+
+    /**
+     * response : userInfo
+     * userInfo : {"bonus":0,"level":"普通会员","userId":30505,"orderCount":"20","favoritesCount":"12"}
+     */
+
+    public String response;
+    /**
+     * bonus : 0
+     * level : 普通会员
+     * userId : 30505
+     * orderCount : 20
+     * favoritesCount : 12
+     */
+
+    public UserInfoBean userInfo;
+
+    public static class UserInfoBean {
+        public static int bonus;
+        public static String level;
+        public static int userId;
+        public static String orderCount;
+        public static String favoritesCount;
+    }
+}

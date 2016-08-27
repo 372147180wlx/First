@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.itheima.rbclient.LoadStateLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lp_result"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+        style="@style/title_style"
+        android:text="购物车" />
+
+        <Button
+        android:id="@+id/btn_edit"
+            android:text="编辑"
+            style="@style/head_button" />
+        <Button
+            android:id="@+id/btn_cart_gocheckout"
+            android:text="去结算"
+            android:layout_alignParentRight="true"
+            style="@style/head_button" />
+    </RelativeLayout>
+    <!--<include layout="@layout/item_cart_header"/>-->
+    <ListView
+        android:id="@+id/lv_cart"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </ListView>
+
+    <Button
+        android:id="@+id/btn_clearcart"
+        android:layout_gravity="center_horizontal"
+        android:text="清空购物车"
+        android:background="@drawable/bar_head_button_bg_red"
+        style="@style/head_button" />
+</LinearLayout>
+</com.itheima.rbclient.LoadStateLayout>

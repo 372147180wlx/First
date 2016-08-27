@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/listview_41bg_normal">
+
+    <ImageView
+        android:id="@+id/iv_searchresult_image"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/product_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="6dp"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:weightSum="6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:maxLines="2"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:id="@+id/tv_searchresult_name"
+            android:text="商品名称描述信息"
+            style="@style/TitleText"
+            />
+        <LinearLayout
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_new_price"
+                style="@style/SubTitleText"
+                android:textSize="25dp"
+                android:textColor="#d90000"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="￥68"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="20dp"
+                    android:id="@+id/tv_old_price"
+                    style="@style/SubTitleText"
+                    android:text="￥68"/>
+                <View
+                    android:layout_centerVertical="true"
+                    android:background="#666666"
+                    android:layout_width="50dp"
+                    android:layout_height="1dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:paddingTop="5dp"
+            android:layout_weight="1"
+            android:id="@+id/tv_talk"
+            style="@style/SubTitleText"
+            android:text="已经有好多人评价"/>
+
+    </LinearLayout>
+
+</LinearLayout>

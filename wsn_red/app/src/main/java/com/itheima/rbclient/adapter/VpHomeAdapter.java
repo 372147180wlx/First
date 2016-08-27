@@ -1,0 +1,62 @@
+package com.itheima.rbclient.adapter;
+
+import android.annotation.TargetApi;
+import android.support.v4.view.PagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.android.volley.toolbox.ImageLoader;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.HomeVPResponse;
+
+import org.senydevpkg.net.HttpLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by lingxin on 2016/8/6.
+ */
+public class VpHomeAdapter extends PagerAdapter {
+    private List<HomeVPResponse.HomeTopicBean> list;
+
+    public VpHomeAdapter(List<HomeVPResponse.HomeTopicBean> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return 1000000 * list.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        HomeVPResponse.HomeTopicBean homeTopicBean = list.get(position % list.size());
+        ImageView iv = new ImageView(App.context);
+        iv.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        HttpLoader.getInstance(App.context).getImageLoader()
+                .get(RBConstants.URL_SERVER + homeTopicBean.pic,
+                        ImageLoader.getImageListener(iv, R.drawable.image1, R.drawable.image1));
+        container.addView(iv);
+        return iv;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
+
+    public void notifyDataSetChanged(List<HomeVPResponse.HomeTopicBean> newData) {
+        this.list = newData;
+        notifyDataSetChanged();
+    }
+}

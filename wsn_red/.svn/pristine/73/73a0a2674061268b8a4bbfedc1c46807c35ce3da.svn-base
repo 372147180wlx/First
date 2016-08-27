@@ -1,0 +1,49 @@
+package com.itheima.rbclient.bean;
+
+import org.senydevpkg.net.resp.IResponse;
+
+/**
+ * Created by KCL on 2016/8/11.
+ */
+public class RegisteResponse implements IResponse {
+
+    /**
+     * response : register
+     * userInfo : {"userid":"191046"}
+     */
+
+    private String response;
+    /**
+     * userid : 191046
+     */
+
+    private UserInfoBean userInfo;
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public UserInfoBean getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfoBean userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public static class UserInfoBean {
+        private String userid;
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+    }
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <TextView
+        style="@style/title_style"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:text="搜索" />
+<LinearLayout
+    android:background="@drawable/segment_bg"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+    <EditText
+        android:id="@+id/ev_keyWord"
+       android:gravity="center_vertical"
+        android:drawableLeft="@drawable/bar_search_normal"
+        android:layout_marginLeft="10dp"
+        android:padding="10dp"
+        android:background="@drawable/search_shape"
+        android:hint="请输入关键字"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="50dp"
+        />
+        <Button
+            android:id="@+id/bt_search"
+            android:onClick="search"
+           android:textColor="#ffffff"
+            android:textSize="13dp"
+            android:text="搜索"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_normal"
+            android:paddingLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+</LinearLayout>
+    <TextView
+        android:paddingRight="10dp"
+        android:textColor="#ff0000"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/segment_bg"
+        android:drawableRight="@drawable/arrow1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="热门搜索"/>
+    <ListView
+        android:id="@+id/lv_search_recommond"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    </ListView>
+    <TextView
+        android:textColor="#ff0000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/segment_bg"
+        android:drawableRight="@drawable/arrow1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="搜索历史"/>
+    <ListView
+        android:id="@+id/lv_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+
+
+</LinearLayout>

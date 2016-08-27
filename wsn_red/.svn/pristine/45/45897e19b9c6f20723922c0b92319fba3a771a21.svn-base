@@ -1,0 +1,118 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.TopicPlistAdapter;
+import com.itheima.rbclient.bean.TopicPlistResponse;
+import com.itheima.rbclient.ui.activity.AppDetailActivity;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * Created by Administrator on 2016/8/10 0010.
+ * 专题商品详情列表
+ */
+public class TopicPlistFragment extends BaseFragment implements HttpLoader.HttpListener {
+
+
+
+    GridView gvTopicList;
+    private List<TopicPlistResponse.ProductListBean> topicPlist;
+    private TopicPlistAdapter adapter;
+
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(App.context, R.layout.topic_plist_fragment, null);
+        gvTopicList = (GridView) view.findViewById(R.id.gv_topic_list);
+        return view;
+    }
+
+    @Override
+    protected void initData() {
+        topicPlist = new ArrayList<>();
+        adapter = new TopicPlistAdapter(topicPlist);
+        gvTopicList.setAdapter(adapter);
+        gvTopicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(App.context, AppDetailActivity.class);
+                intent.putExtra("sendpId",topicPlist.get(position).id);
+                Log.e("asd",topicPlist.get(position).id+"wwww"+position);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params = new HttpParams();
+        params.put("page", "1").put("pageNum", "10").put("orderby","priceUp").put("id","1");
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_TOPIC_PLIST, params, TopicPlistResponse.class, RBConstants.REQUEST_CODE_TOPIC_PLIST, this).setTag(this);
+
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_TOPIC_PLIST && response instanceof TopicPlistResponse) {
+
+            topicPlist = ((TopicPlistResponse) response).productList;
+
+            adapter.notifyDataSetChanged(topicPlist);
+
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+    @OnClick(R.id.bt_plist_back)
+    public void onClick() {
+        mMainActivity.switchFragment(FragmentInstanceManager.getInstance().getFragment(TopicFragment.class));
+    }
+}

@@ -1,0 +1,70 @@
+package com.itheima.rbclient.ui.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.CheckoutResponse;
+import com.itheima.rbclient.protocol.Api;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.resp.IResponse;
+
+public class CheckTimeActivity extends AppCompatActivity implements HttpLoader.HttpListener {
+
+    private Button btn_back_check;
+    private TextView tv_checkout_commontitle;
+    private TextView tv_checkcommon_text1;
+    private TextView tv_checkcommon_text2;
+    private TextView tv_checkcommon_text3;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.checkout_common);
+        iniData();
+        tv_checkout_commontitle = (TextView) findViewById(R.id.tv_checkout_commontitle);
+        tv_checkcommon_text1 = (TextView) findViewById(R.id.tv_checkcommon_text1);
+        tv_checkcommon_text2 = (TextView) findViewById(R.id.tv_checkcommon_text2);
+        tv_checkcommon_text3 = (TextView) findViewById(R.id.tv_checkcommon_text3);
+        btn_back_check = (Button) findViewById(R.id.btn_back_check);
+        btn_back_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void iniData() {
+        requestNetData();
+    }
+
+    protected void requestNetData() {
+
+        //请求数据
+        Api.getCheckoutData(this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_CHECKOUT && response instanceof CheckoutResponse) {
+            CheckoutResponse resp = (CheckoutResponse) response;
+            tv_checkout_commontitle.setText("送货时间");
+            tv_checkcommon_text1.setText(resp.deliveryList.get(0).getDes());
+           tv_checkcommon_text2.setText(resp.deliveryList.get(1).getDes());
+            tv_checkcommon_text3.setText(resp.deliveryList.get(2).getDes());
+        }
+    }
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+}

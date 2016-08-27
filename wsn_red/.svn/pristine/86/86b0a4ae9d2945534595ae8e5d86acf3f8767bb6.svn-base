@@ -1,0 +1,103 @@
+package com.itheima.rbclient.ui.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.CheckAddressResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+
+public class CheckAddressActivity extends AppCompatActivity implements HttpLoader.HttpListener,View.OnClickListener {
+
+    private Button btn_back_check;
+    private ListView lv_check_address;
+    private ArrayList<CheckAddressResponse.AddressListBean> addressList;
+    private CheckAddressAdapter addressAdapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.checkout_address);
+        lv_check_address = (ListView) findViewById(R.id.lv_check_address);
+        addressList = new ArrayList<>();
+        addressAdapter = new CheckAddressAdapter(addressList);
+        lv_check_address.setAdapter(addressAdapter);
+        iniData();
+    }
+
+
+    /**
+     * 初始化数据
+     */
+    private void iniData() {
+
+        requestNetData();
+    }
+
+    protected void requestNetData() {
+
+        //请求数据
+        String url = RBConstants.URL_SERVER + "addresslist";
+        HttpParams params = new HttpParams();
+        params.addHeader("userid","20428");
+        Class<? extends IResponse> clazz = CheckAddressResponse.class;
+        int requestcode = RBConstants.REQUEST_CODE_CHECKOUT;
+        App.HL.get(url, params, clazz, requestcode, this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_CHECKOUT && response instanceof CheckAddressResponse) {
+
+        }
+    }
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+}
+
+class CheckAddressAdapter extends BaseAdapter {
+    private ArrayList<CheckAddressResponse.AddressListBean> mList = new ArrayList<>();
+    public CheckAddressAdapter(ArrayList<CheckAddressResponse.AddressListBean> data) {
+        this.mList = data;
+    }
+
+    @Override
+    public int getCount() {
+        return mList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return null;
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/title_style"
+            android:text="商品详情" />
+        <Button
+            android:id="@+id/bt_detailmsg_back"
+            android:text="返回"
+            style="@style/head_back" />
+        <Button
+            android:id="@+id/bt_detailmsg_buy"
+            android:text="加入购物车"
+            android:layout_alignParentRight="true"
+            style="@style/head_button" />
+    </RelativeLayout>
+    <LinearLayout
+        android:background="@drawable/edit_text"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_detailmsg_name"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:text="益力健牛乳复合软胶囊900mg*30粒"
+            style="@style/TitleText" />
+        <TextView
+            android:id="@+id/tv_detailmsg_des"
+            android:layout_marginBottom="30dp"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:text="粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述粉色毛衣的详细描述"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

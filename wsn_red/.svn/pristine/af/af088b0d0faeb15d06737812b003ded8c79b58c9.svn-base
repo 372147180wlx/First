@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#d90000"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back_feedback"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bar_head_button_bg"
+            android:text="返回"
+            android:textColor="#fff"/>
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="用户反馈"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+        <Button
+            android:id="@+id/commit_feedback"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bar_head_button_bg"
+            android:text="提交"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <TextView
+
+        android:layout_margin="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="反馈内容（您可以输入对商品以及客户端的建议和意见）"
+        android:textColor="#000"
+        android:textSize="21sp"/>
+    <EditText
+        android:id="@+id/et_comment"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:hint="用户评论输入框"
+        android:background="@drawable/rec_shape"
+        android:layout_margin="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp" />
+    <TextView
+        android:layout_margin="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="联系方式"
+        android:textColor="#000"
+        android:textSize="21sp"/>
+    <EditText
+        android:textColor="#000"
+        android:id="@+id/et_tel"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="您的姓名、手机号、邮箱"
+        android:background="@drawable/rec_shape"
+        android:layout_margin="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+</LinearLayout>

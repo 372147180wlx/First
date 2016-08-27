@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\default_ptr_flip.png",
+        "source": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\default_ptr_flip.png"
+    },
+    {
+        "merged": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\indicator_arrow.png",
+        "source": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\indicator_arrow.png"
+    },
+    {
+        "merged": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\default_ptr_rotate.png",
+        "source": "D:\\RedBaby\\RBClient\\pullToRefreshLib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\default_ptr_rotate.png"
+    }
+]

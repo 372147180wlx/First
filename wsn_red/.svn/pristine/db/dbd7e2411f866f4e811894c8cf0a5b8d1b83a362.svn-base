@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView
+            android:text="您可以享受一下优惠:"
+            style="@style/TitleText" />
+            <TextView
+                android:id="@+id/et_cart_fotter"
+                android:textColor="@color/txt_red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/product_detail_shop_selected"
+                />
+
+
+    </LinearLayout>
+

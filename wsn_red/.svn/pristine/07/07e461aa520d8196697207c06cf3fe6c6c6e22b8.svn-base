@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        style="@style/title_style"
+        android:text="热门单品" />
+    <Button
+        android:id="@+id/bt_hot_back"
+        android:text="返回"
+        style="@style/head_back" />
+</RelativeLayout>
+
+<com.handmark.pulltorefresh.library.PullToRefreshListView
+    android:id="@+id/lv_hotproduct_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+</LinearLayout>

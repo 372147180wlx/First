@@ -1,0 +1,79 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.TopicAdapter;
+import com.itheima.rbclient.bean.TopicResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+
+/**
+ * 促销快报
+ */
+public class TopicFragment extends BaseFragment  implements HttpLoader.HttpListener{
+    @InjectView(R.id.lv_topic_list)
+    ListView lvTopicList;
+    private List<TopicResponse.TopicBean> topic;
+    private TopicAdapter adapter;
+
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.topic_fragment, null);
+    }
+
+    @Override
+    protected void initData() {
+        topic = new ArrayList<>();
+        adapter = new TopicAdapter(topic);
+        lvTopicList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params = new HttpParams();
+        params.put("page","1").put("pageNum","8");
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_TOPIC,params, TopicResponse.class,RBConstants.REQUEST_CODE_TOPIC,this).setTag(this);
+
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if(requestCode == RBConstants.REQUEST_CODE_TOPIC&& response instanceof TopicResponse){
+            topic = ((TopicResponse) response).topic;
+            adapter.notifyDataSetChanged(topic);
+
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+}

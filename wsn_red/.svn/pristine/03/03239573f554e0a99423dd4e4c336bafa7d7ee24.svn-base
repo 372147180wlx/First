@@ -1,0 +1,93 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.NewproductAdapter;
+import com.itheima.rbclient.bean.LimitResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+/**
+ * 新品上架
+ */
+public class NewproductFragment extends BaseFragment  implements HttpLoader.HttpListener {
+    @InjectView(R.id.lv_newproduct_list)
+    ListView lvNewproductList;
+    private List<LimitResponse.ProductListBean> productList;
+    private NewproductAdapter adapter;
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.newproduct_fragment, null);
+    }
+
+    @Override
+    protected void initData() {
+        productList = new ArrayList<>();
+        adapter = new NewproductAdapter(productList);
+        lvNewproductList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params=new HttpParams();
+        params.put("page","1").put("pageNum","8").put("orderby","saleDown");
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_NEWPRODUCT,params, LimitResponse.class,RBConstants.REQUEST_CODE_NEWPRODUCT,this).setTag(this);
+
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if(requestCode == RBConstants.REQUEST_CODE_NEWPRODUCT&& response instanceof LimitResponse){
+            productList = ((LimitResponse) response).productList;
+            adapter.notifyDataSetChanged(productList);
+
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.HL.cancelRequest(this);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+}

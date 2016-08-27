@@ -1,0 +1,157 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.AccountCenteResponse;
+import com.itheima.rbclient.bean.LoginResponse;
+import com.itheima.rbclient.protocol.Api;
+import com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments.AddressFragment;
+import com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments.CouponFragment;
+import com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments.FavoriteFragment;
+import com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments.LoginFragment;
+import com.itheima.rbclient.ui.fragment.morefragments.accountcenterfragments.MyOrderFragment;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+/**
+ * Created by Administrator on 2016/8/6.
+ */
+public class AccountCenterFragment extends BaseFragment implements View.OnClickListener, HttpLoader.HttpListener {
+    private static final String TAG = "AccountCenterFragment";
+    @InjectView(R.id.bt_more_left)
+    Button btMoreLeft;
+    @InjectView(R.id.bt_more_right)
+    Button btMoreRight;
+    @InjectView(R.id.tv_accountcenter_user)
+    TextView tvAccountcenterUser;
+    @InjectView(R.id.tv_accountcenter_huiy)
+    TextView tvAccountcenterHuiy;
+    @InjectView(R.id.tv_accountcenter_jif)
+    TextView tvAccountcenterJif;
+    @InjectView(R.id.rl_item_one)
+    LinearLayout rlItemOne;
+    @InjectView(R.id.rl_item_two)
+    RelativeLayout rlItemTwo;
+    @InjectView(R.id.rl_item_three)
+    RelativeLayout rlItemThree;
+    @InjectView(R.id.rl_item_four)
+    RelativeLayout rlItemFour;
+    @InjectView(R.id.tv_dd)
+    TextView tvDd;
+    @InjectView(R.id.tv_shou)
+    TextView tvShou;
+    private AccountCenteResponse.UserInfoBean userInfo;
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(App.context, R.layout.fragment_account, null);
+        return view;
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    @Override
+    protected void handleUserInput() {
+        btMoreLeft.setOnClickListener(this);
+        btMoreRight.setOnClickListener(this);
+        rlItemOne.setOnClickListener(this);
+        rlItemTwo.setOnClickListener(this);
+        rlItemThree.setOnClickListener(this);
+        rlItemFour.setOnClickListener(this);
+    }
+
+    @Override
+    protected void requestNetData() {
+        //从网络上请求数据
+        Api.getAccountCenterData(this).setTag(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_more_left://更多
+                swichToChildFragment(new MoreFragment(), true);
+                break;
+            case R.id.bt_more_right://登录界面
+                swichToChildFragment(new LoginFragment(), true);
+
+
+                //临时用登录入口
+                String username = "test";
+                String pwd = "test";
+                HttpParams p = new HttpParams().put("username", username).put("password", pwd);
+                App.HL.post(RBConstants.URL_LOGIN, p, LoginResponse.class, RBConstants.REQUEST_CODE_LOGIN, this);
+                Toast.makeText(getActivity(), "登录成功 !", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.rl_item_one://切换我的订单
+                swichToChildFragment(new MyOrderFragment(), true);
+                break;
+            case R.id.rl_item_two://切换地址管理
+                swichToChildFragment(new AddressFragment(), true);
+                break;
+            case R.id.rl_item_three://切换优惠券
+                swichToChildFragment(new CouponFragment(), true);
+                break;
+            case R.id.rl_item_four://切换收藏夹
+                swichToChildFragment(new FavoriteFragment(), true);
+                break;
+        }
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_ACCOUNTCENTER_LIST && response instanceof AccountCenteResponse) {
+            userInfo = ((AccountCenteResponse) response).getUserInfo();
+            if (userInfo == null) {
+                tvAccountcenterHuiy.setText("会员等级 : 0");
+                tvAccountcenterJif.setText("会员积分 : 0");
+                tvDd.setText("我的订单( " + 0 + " )");
+                tvShou.setText("收藏夹( " + 0 + " )");
+            } else {
+                tvAccountcenterHuiy.setText("会员等级 : " + userInfo.getLevel());
+                tvAccountcenterJif.setText("会员积分 : " + userInfo.getBonus());
+                tvDd.setText("我的订单( " + userInfo.getOrderCount() + " )");
+                tvShou.setText("收藏夹( " + userInfo.getFavoritesCount() + " )");
+                System.out.println("========================");
+            }
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+    }
+}

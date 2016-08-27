@@ -1,0 +1,95 @@
+package com.itheima.rbclient.adapter;
+
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.android.volley.toolbox.ImageLoader;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.FavoriteResponse;
+
+import org.senydevpkg.net.HttpLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+/**
+ * Created by lingxin on 2016/8/10.
+ */
+public class FavoriteAdapter extends BaseAdapter {
+
+    private static final String TAG ="FavoriteAdapter" ;
+    private List<FavoriteResponse.ProductListBean> list;
+
+    public FavoriteAdapter(List<FavoriteResponse.ProductListBean> userInfos) {
+        list = userInfos;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null) {
+            convertView = View.inflate(App.context, R.layout.item_list_favorite, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        HttpLoader.getInstance(App.context).getImageLoader()
+                .get(RBConstants.URL_SERVER + list.get(position).getPic(),
+                        ImageLoader.getImageListener(holder.ivPic, R.drawable.image1, R.drawable.image1));
+        holder.tvName.setText(list.get(position).getName());
+        holder.tvPrice.setText(list.get(position).getPrice()+"");
+        holder.tvMarketPrice.setText(list.get(position).getMarketPrice()+"");
+        Log.e(TAG,"getView"+list.get(position).getName());
+        Log.e(TAG,"getView"+list.get(position).getMarketPrice()+"");
+        notifyDataSetChanged(list);
+
+        return convertView;
+    }
+
+    static class ViewHolder {
+        @InjectView(R.id.iv_pic)
+        ImageView ivPic;
+        @InjectView(R.id.tv_name)
+        TextView tvName;
+        @InjectView(R.id.tv_price)
+        TextView tvPrice;
+        @InjectView(R.id.tv_marketPrice)
+        TextView tvMarketPrice;
+        @InjectView(R.id.tv_talk)
+        TextView tvTalk;
+
+        ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
+    }
+    //刷新数据
+    public void notifyDataSetChanged(List<FavoriteResponse.ProductListBean> data) {
+        this.list = data;
+       // notifyDataSetChanged(data);
+    }
+}

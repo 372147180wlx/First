@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+        style="@style/title_style"
+        android:text="购物车" />
+        <Button
+            android:id="@+id/btn_goback"
+            android:text="返回"
+            style="@style/head_back" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    <ImageView
+        android:layout_centerInParent="true"
+        android:src="@drawable/shopcar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <TextView
+        android:gravity="center"
+        android:text="您的购物车中没有商品！快去挑选喜欢的商品吧!"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <Button
+       android:id="@+id/btn_gohome"
+        android:layout_gravity="center_horizontal"
+        android:text="随便逛逛"
+        android:background="@drawable/bar_head_button_bg_red"
+        style="@style/head_button" />
+
+</LinearLayout>

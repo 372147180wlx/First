@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:padding="8dp"
+        android:background="@drawable/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_comment_user"
+        android:text="用户：赵刚"
+        style="@style/TitleText" />
+    <TextView
+        android:id="@+id/tv_comment_time"
+        android:textColor="#ff333333"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="时间：2014"
+         />
+        <TextView
+            android:layout_below="@id/tv_comment_user"
+            android:id="@+id/tv_detailmsg_buyname"
+            android:text="商品名称：裙子"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_comment_msg"
+            android:maxLines="3"
+            android:layout_below="@id/tv_detailmsg_buyname"
+            android:text="裙子不错裙子不错裙子不错裙子不错裙子不错裙子不错裙子裙子不错裙子不错裙子不错裙子不错裙子不错裙子不错裙子裙子不错裙子不错裙子不错裙子不错裙子不错裙子不错裙子裙子不错裙子不错裙子不错裙子不错裙子不错裙子不错裙子裙子不错裙子不错裙子不错裙子不错裙子不错裙子不错裙子"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,289 @@
+package com.itheima.rbclient.ui.activity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.text.Editable;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.LoadStateLayout;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.bean.AppDetailCollectEvent;
+import com.itheima.rbclient.bean.AppDetailResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+import org.senydevpkg.utils.MyToast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
+
+/**
+ * Created by ocean on 2016/8/5.
+ */
+public class AppDetailActivity extends Activity implements View.OnClickListener {
+
+    //下拉列表部分
+    private Spinner sp_color,sp_size;
+    private List<String> sp_color_list;//商品颜色集合
+    private List<String> sp_size_list;//商品大小集合
+    private ArrayAdapter<String> sp_color_adapter;
+    private ArrayAdapter<String> sp_size_adapter;
+
+    //界面控件参数部分
+    private LoadStateLayout lsl_detail;
+    private TextView tv_detail_name,tv_detail_market,tv_detail_member,tv_detail_place,tv_detail_comment;
+    private LinearLayout ll_detail_screen;
+    private RatingBar rb_detail_star;
+    private EditText et_detail_num;
+    private Button bt_detail_back,bt_detail_message,bt_add_shop,bt_add_collect;
+
+    //网络请求部分
+    private AppDetailResponse.ProductBean product;//商品详情bean对象
+    private int sendpId;
+
+
+    //发送数据部分
+    private Editable buyNum;
+    private AppDetailResponse.ProductBean.ProductPropertyBean productPropertyBean;
+    private long colorId;//颜色下拉选择id
+    private long sizeId;//大小下拉选择id
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+    //    private MessageDao dao;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_app_detail);
+        //接收传过来的
+        sendpId = getIntent().getIntExtra("sendpId",0);
+        //用数据库保存传递过来的数据
+//        dao = new MessageDao(this);
+//        dao.add(sendpId);
+//        //创建SharedPreferences保存数据
+        sp = this.getSharedPreferences("memory",0);
+        String sendMemory = sp.getString("sendMemory", null);
+        editor = sp.edit();
+        //传递给浏览记录
+        editor.putString("sendMemory",sendMemory+"|"+sendpId);
+//        //创建集合保存传入的id
+//        editor.putInt("sendMemory",sendpId);
+       // editor.commit();
+        //创建集合用来存放要传递的数据
+        initView();//初始化参数
+        requestNetData();
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initView() {
+        lsl_detail = (LoadStateLayout) findViewById(R.id.lsl_detail);
+        bt_detail_back = (Button) findViewById(R.id.bt_detail_back);//返回按钮
+        bt_detail_message = (Button) findViewById(R.id.bt_detail_message);//详细信息界面
+        ll_detail_screen = (LinearLayout) findViewById(R.id.ll_detail_screen);//viewpager展示图
+        tv_detail_name = (TextView) findViewById(R.id.tv_detail_name);//商品名
+        tv_detail_market = (TextView) findViewById(R.id.tv_detail_market);//市场价
+        rb_detail_star = (RatingBar) findViewById(R.id.rb_detail_star);//评分
+        tv_detail_member = (TextView) findViewById(R.id.tv_detail_member);//会员价
+        sp_color = (Spinner) findViewById(R.id.sp_color);//颜色
+        sp_size = (Spinner) findViewById(R.id.sp_size);//尺寸
+        et_detail_num = (EditText) findViewById(R.id.et_detail_num);//购买件数
+        bt_add_shop = (Button) findViewById(R.id.bt_add_shop);//添加购物车
+        bt_add_collect = (Button) findViewById(R.id.bt_add_collect);//收藏
+        tv_detail_place = (TextView) findViewById(R.id.tv_detail_place);//配货地
+        tv_detail_comment = (TextView) findViewById(R.id.tv_detail_comment);//评论
+
+        //设置界面的加载状态
+       // lsl_detail.setEmptyView(R.layout.fragment_searchresult_empty);
+        lsl_detail.setErrorView(R.layout.activity_detail_empty);
+        lsl_detail.setLoadingView(R.layout.fragment_searchresult_loading);
+
+
+        buyNum = et_detail_num.getText();
+        sp_color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                colorId = sp_color.getItemIdAtPosition(position)+1;
+                //System.out.println("colorId"+colorId);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        sp_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sizeId = sp_size.getItemIdAtPosition(position)+3;
+                //System.out.println("sizeId:"+sizeId);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        //设置控件的点击事件
+        bt_detail_back.setOnClickListener(this);
+        bt_detail_message.setOnClickListener(this);
+        bt_add_shop.setOnClickListener(this);
+        bt_add_collect.setOnClickListener(this);
+        tv_detail_comment.setOnClickListener(this);
+        et_detail_num.setOnClickListener(this);
+    }
+    /**
+     * 请求网络数据
+     */
+    private void requestNetData() {
+//        SystemClock.sleep(1000);
+        HttpParams params = new HttpParams();
+        params.put("pId", sendpId+"");
+        HttpLoader.getInstance(this).get(RBConstants.URL_APP_DETAIL, params, AppDetailResponse.class,
+            RBConstants.REQUEST_CODE_APP_DETAIL, new HttpLoader.HttpListener() {
+                @Override
+                public void onGetResponseSuccess(int requestCode, IResponse response) {
+                    if (requestCode == RBConstants.REQUEST_CODE_APP_DETAIL && response instanceof AppDetailResponse){
+                        //请求成功以后获取商品详情的bean对象
+                        product = ((AppDetailResponse) response).product;
+                        //请求数据成功以后，设置数据
+                        lsl_detail.setState(LoadStateLayout.STATE_SUCCESS);
+                        initData();
+                    }
+                }
+                @Override
+                public void onGetResponseError(int requestCode, VolleyError error) {
+                        lsl_detail.setState(LoadStateLayout.STATE_ERROR);
+                }
+            });
+    }
+    /**
+     * 初始数据
+     */
+    private void initData() {
+        setScreen();//设置图片展示
+        tv_detail_name.setText(product.name);//设置商品名
+        tv_detail_market.setText("市场价："+product.marketPrice);//设置市场价
+        rb_detail_star.setRating(product.score);//设置评分
+        tv_detail_member.setText("会员价："+product.price);//设置会员价
+        setSpinner();//设置下拉列表
+        tv_detail_place.setText("查看库存："+product.inventoryArea);//设置配货地
+        tv_detail_comment.setText("用户评论：共有"+product.commentCount+"人评论");//设置商品评论数
+    }
+
+    /**
+     * 设置上部图片显示
+     */
+    private void setScreen() {
+        //获取图片的集合
+        List<String> pics =  product.pics;
+        if(pics.size()==0){
+            pics.add("/images/product/detail/c3.jpg");
+        }
+        //获取大图片的集合
+        final ArrayList<String> bigPic = (ArrayList<String>) product.bigPic;
+        for (int i = 0; i < pics.size(); i++) {
+            ImageView imageView = new ImageView(App.context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(160, 210);
+            params.leftMargin = (i == 0 ? 0 : 20);
+            imageView.setLayoutParams(params);
+            //显示图片
+            HttpLoader.getInstance(App.context).getImageLoader().get(RBConstants.URL_SERVER + pics.get(i),
+                    ImageLoader.getImageListener(imageView, R.drawable.product_loading, R.drawable.product_loading));
+            ll_detail_screen.addView(imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //开启缩放大图的界面
+                    Intent intent = new Intent(AppDetailActivity.this, ImageScaleActivity.class);
+                    //传输大图片集合
+                    intent.putStringArrayListExtra("bigPic", bigPic);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_detail_back:
+                finish();
+                break;
+            case R.id.bt_detail_message:
+                Intent intent = new Intent(this,AppDetailMessageActivity.class);
+                intent.putExtra("pId",sendpId);
+                intent.putExtra("AppName",product.name);
+                startActivity(intent);
+                break;
+            case R.id.bt_add_shop:
+                //传给购物车的数据：商品ID:数量:属性ID(两个参数)
+                String sendShop = sendpId + ":" + buyNum + ":" + colorId+","+sizeId;
+                //传递给购物车
+                String sendShop1 = sp.getString("sendShop", null);
+                editor.putString("sendShop",sendShop1+"|"+sendShop);
+                editor.commit();
+                //EventBus.getDefault().postSticky(new AppDetailShopEvent(sendShop));
+                MyToast.show(this,"成功添加到购物车");
+                break;
+            case R.id.bt_add_collect:
+                EventBus.getDefault().postSticky(new AppDetailCollectEvent(sendpId));
+                MyToast.show(this,"收藏成功");
+                break;
+            case R.id.tv_detail_comment:
+                Intent intent2 = new Intent(this,AppDetailCommentActivity.class);
+                intent2.putExtra("pId",sendpId);
+                startActivity(intent2);
+                break;
+            case R.id.et_detail_num:
+                et_detail_num.setCursorVisible(true);
+                break;
+        }
+    }
+    /**
+     * 设置下拉列表
+     */
+    private void setSpinner() {
+        List<AppDetailResponse.ProductBean.ProductPropertyBean> productProperty = product.productProperty;
+        sp_color_list = new ArrayList<String>();
+        sp_size_list = new ArrayList<String>();
+        for (int i = 0; i < productProperty.size(); i++) {
+            productPropertyBean = productProperty.get(i);
+            String k = productPropertyBean.k;
+            String v = productPropertyBean.v;
+            if (k.equals("颜色")) {
+                sp_color_list.add(v);
+            } else {
+                sp_size_list.add(v);
+            }
+        }
+        //适配器
+        sp_color_adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sp_color_list);
+        sp_size_adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sp_size_list);
+        //设置样式
+        sp_color_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_size_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //加载适配器
+        sp_color.setAdapter(sp_color_adapter);
+        sp_size.setAdapter(sp_size_adapter);
+    }
+
+}

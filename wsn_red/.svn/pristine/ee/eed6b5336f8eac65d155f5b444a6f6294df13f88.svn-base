@@ -1,0 +1,111 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.SearchRecommendAdapter;
+import com.itheima.rbclient.bean.SearchRecommondResponse;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+
+
+public class SearchFragment extends BaseFragment implements HttpLoader.HttpListener {
+
+    @InjectView(R.id.lv_search_recommond)
+    ListView lvSearchRecommond;
+    @InjectView(R.id.ev_keyWord)
+    EditText evKeyWord;
+    @InjectView(R.id.bt_search)
+    Button btSearch;
+    private List<String> searchKeywords;
+    private SearchRecommendAdapter adapter;
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.fragment_search, null);
+
+
+    }
+
+    @Override
+    protected void initData() {
+        searchKeywords = new ArrayList<>();
+        adapter = new SearchRecommendAdapter(searchKeywords);
+        lvSearchRecommond.setAdapter(adapter);
+
+    }
+
+
+    @Override
+    protected void handleUserInput() {
+        btSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyWord = evKeyWord.getText().toString().trim();
+                if (keyWord==null||"".equals(keyWord)){
+                    Toast.makeText(App.context,"请输入搜索关键字",Toast.LENGTH_SHORT).show();
+                }else{//判断有没有这个商品，如果有就显示具体的商品列表，如果没有就显示没有数据的页面，用loaddatelayout
+                    swichToChildFragment(new SearchReslutFragment(), true);
+                    EventBus.getDefault().postSticky(keyWord);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params = new HttpParams();
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_SEARCH_RCOMMOND, params, SearchRecommondResponse.class, RBConstants.REQUEST_CODE_SEARCH_RCOMMOND, this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_SEARCH_RCOMMOND && response instanceof SearchRecommondResponse) {
+            searchKeywords = ((SearchRecommondResponse) response).getSearchKeywords();
+            System.out.println("拿到数据了" + searchKeywords.toString());
+            adapter.notifyDataSetChanged(searchKeywords);
+        }
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+        System.out.println("没有返回数据");
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        App.HL.cancelRequest(this);
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+}

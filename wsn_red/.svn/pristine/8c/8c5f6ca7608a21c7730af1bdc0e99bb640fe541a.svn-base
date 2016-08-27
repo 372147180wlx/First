@@ -1,0 +1,38 @@
+package com.itheima.rbclient;
+
+import android.app.Application;
+import android.content.Context;
+
+import com.android.volley.toolbox.ImageLoader;
+
+import org.senydevpkg.net.HttpLoader;
+
+/**
+ * 全局Application类
+ * 通常做一些初始化工作，
+ * Notice：记得在AndroidManife.xml清单文件中配置APP路径
+ *
+ * Created by xiongmc on 2016/4/26.
+ */
+public class App extends Application{
+
+    /**
+     * 全局上下文，方便使用
+     */
+    public static Context context;
+
+    public static HttpLoader HL;
+    public static ImageLoader IL;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        context = this;
+        HL = HttpLoader.getInstance(context);
+        IL = HL.getImageLoader();
+        System.out.println("wph text");
+        System.out.println("zq");
+        System.out.println("test");
+    }
+}

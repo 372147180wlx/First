@@ -1,0 +1,260 @@
+package com.itheima.rbclient.ui.fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.android.volley.VolleyError;
+import com.itheima.rbclient.App;
+import com.itheima.rbclient.LoadStateLayout;
+import com.itheima.rbclient.R;
+import com.itheima.rbclient.RBConstants;
+import com.itheima.rbclient.adapter.SearchResultAdapter;
+import com.itheima.rbclient.bean.KeyWordEvent;
+import com.itheima.rbclient.bean.SearchResult;
+import com.itheima.rbclient.ui.activity.AppDetailActivity;
+
+import org.senydevpkg.net.HttpLoader;
+import org.senydevpkg.net.HttpParams;
+import org.senydevpkg.net.resp.IResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+
+/**
+ * Created by KCL on 2016/8/7.
+ */
+public class SearchReslutFragment extends BaseFragment implements HttpLoader.HttpListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemClickListener {
+    @InjectView(R.id.lv_serach_content)
+    ListView lvSerachContent;
+    @InjectView(R.id.btn_search_empty_goback)
+    Button btnSearchEmptyGoback;
+    @InjectView(R.id.tv_search_resultnum)
+    TextView tvSearchResultnum;
+    @InjectView(R.id.btn_search_result_goback)
+    Button btnSearchResultGoback;
+    @InjectView(R.id.lp_search_result)
+    LoadStateLayout lpSearchResult;
+    @InjectView(R.id.rbsearchresult_sellnum)
+    RadioButton rbsearchresultSellnum;
+    @InjectView(R.id.rbsearchresult_goodtalk)
+    RadioButton rbsearchresultGoodtalk;
+    @InjectView(R.id.rbsearchresult_selltime)
+    RadioButton rbsearchresultSelltime;
+    @InjectView(R.id.rg_content_searchresult)
+    RadioGroup rgContentSearchresult;
+    @InjectView(R.id.btn_reload)
+    Button btnReload;
+    @InjectView(R.id.rbsearchresult_pricedown)
+    RadioButton rbsearchresultPricedown;
+    @InjectView(R.id.rbsearchresult_priceup)
+    RadioButton rbsearchresultPriceup;
+    private String keyWord = null;
+    private List<SearchResult.ProductListBean> productList;
+    private LoadStateLayout searchResultView;
+    private View emptyView;
+    private View contentView;
+    private View loadingView;
+    private SearchResultAdapter adapter;
+    private View errorView;
+
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        EventBus.getDefault().registerSticky(this);
+        //EventBus.getDefault().getStickyEvent(String);
+        View view = initView();
+        return view;
+    }
+
+    /**
+     * 利用LoadStateLayout,初始化不同状态的view
+     *
+     * @return
+     */
+    private View initView() {
+        View view = View.inflate(App.context, R.layout.fragment_search_result, null);
+        ButterKnife.inject(view);
+        searchResultView = (LoadStateLayout) view.findViewById(R.id.lp_search_result);
+        searchResultView.setLoadingView(R.layout.fragment_searchresult_loading);
+        searchResultView.setEmptyView(R.layout.fragment_searchresult_empty);
+        searchResultView.setErrorView(R.layout.page_error);
+        loadingView = searchResultView.getLoadingView();
+        contentView = searchResultView.getContentView();
+        emptyView = searchResultView.getEmptyView();
+        errorView = searchResultView.getErrorView();
+        return view;
+
+    }
+
+    public void onEvent(Object event) {
+        if (event instanceof KeyWordEvent) {
+            KeyWordEvent keyWordEvent = (KeyWordEvent) event;
+            this.keyWord = keyWordEvent.keyWord;
+            System.out.println(this.keyWord + "");
+            ;
+        }
+
+    }
+
+
+    @Override
+    protected void initData() {
+        productList = new ArrayList<>();
+        adapter = new SearchResultAdapter(productList);
+        lvSerachContent.setAdapter(adapter);
+        lvSerachContent.setOnItemClickListener(this);
+        rgContentSearchresult.setOnCheckedChangeListener(this);
+        rgContentSearchresult.check(R.id.rbsearchresult_sellnum);
+    }
+
+    @Override
+    protected void handleUserInput() {
+
+    }
+
+    @Override
+    protected void requestNetData() {
+        HttpParams params = new HttpParams();
+        params.put("page", "1").put("pageNum", "10").put("keyword", keyWord).put("orderby", "saleDown");
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_SEARCH, params, SearchResult.class, RBConstants.REQUEST_CODE_SEARCH, this);
+    }
+
+    @Override
+    public void onGetResponseSuccess(int requestCode, IResponse response) {
+        if (requestCode == RBConstants.REQUEST_CODE_SEARCH && response instanceof SearchResult) {
+            productList = ((SearchResult) response).getProductList();//查询到的商品列表
+            if (productList.size() > 0) {
+                //查询到了商品
+                System.out.println("返回了商品" + productList.toString());
+                searchResultView.setState(LoadStateLayout.STATE_SUCCESS);
+                adapter.notifyDataSetChanged(productList);
+                tvSearchResultnum.setText("搜索结果( " + productList.size() + " )" + " 条");
+
+            } else {
+                //没有查询到商品
+                searchResultView.setState(LoadStateLayout.STATE_EMPTY);
+            }
+        } else {//网络有问题
+            searchResultView.setState(LoadStateLayout.STATE_ERROR);
+        }
+
+    }
+
+    @Override
+    public void onGetResponseError(int requestCode, VolleyError error) {
+        searchResultView.setState(LoadStateLayout.STATE_ERROR);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        App.HL.cancelRequest(this);
+        ButterKnife.reset(this);
+    }
+
+    @OnClick({R.id.btn_search_empty_goback, R.id.btn_search_result_goback, R.id.btn_reload})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_search_empty_goback:
+            case R.id.btn_search_result_goback:
+                //MainActivity.switchFragment(FragmentInstanceManager.getInstance().getFragment(HomeFragment.class));
+                swichToChildFragment(FragmentInstanceManager.getInstance().getFragment(SearchFragment.class), false);
+                onDestroyView();
+                break;
+            case R.id.btn_reload:
+                searchResultView.setState(LoadStateLayout.STATE_LOADING);
+                requestNetData();
+        }
+    }
+
+    /**
+     * 根据按钮切换不同的商品排序，有按照价格排序，销量排序等
+     *
+     * @param group
+     * @param checkedId
+     */
+    private boolean ispriceDown = true;
+//    @InjectView(R.id.rbsearchresult_pricedown)
+//    RadioButton rbsearchresultPricedown;
+//    @InjectView(R.id.rbsearchresult_priceup)
+//    RadioButton rbsearchresultPriceup;
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.rbsearchresult_sellnum:
+                requestData("saleDown");
+                break;
+            case R.id.rbsearchresult_pricedown:
+                if (ispriceDown){
+                    rbsearchresultPricedown.setVisibility(View.GONE);
+                    rbsearchresultPriceup.setVisibility(View.VISIBLE);
+                    requestData("priceDown");
+                    ispriceDown= ! ispriceDown;
+                }else{
+                    rbsearchresultPricedown.setVisibility(View.VISIBLE);
+                    rbsearchresultPriceup.setVisibility(View.GONE);
+                    requestData("priceUp");
+                    ispriceDown= ! ispriceDown;
+                }
+                break;
+            case R.id.rbsearchresult_priceup:
+                if (ispriceDown){
+                    rbsearchresultPricedown.setVisibility(View.GONE);
+                    rbsearchresultPriceup.setVisibility(View.VISIBLE);
+                    requestData("priceDown");
+                    ispriceDown= ! ispriceDown;
+                }else{
+                    rbsearchresultPricedown.setVisibility(View.VISIBLE);
+                    rbsearchresultPriceup.setVisibility(View.GONE);
+                    requestData("priceUp");
+                    ispriceDown= ! ispriceDown;
+                }
+
+                break;
+
+            case R.id.rbsearchresult_goodtalk://服务器返回数据为空，所以直接显示价格降序
+                requestData("saleDown");
+                break;
+            case R.id.rbsearchresult_selltime:
+                requestData("shelvesDown");
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(App.context, AppDetailActivity.class);
+        intent.putExtra("sendpId", productList.get(position).getId());
+        Log.e("asd", productList.get(position).getId() + "wwww" + position);
+        startActivity(intent);
+
+    }
+
+    protected void requestData(String orderby) {
+        HttpParams params = new HttpParams();
+        params.put("page", "1").put("pageNum", "10").put("keyword", keyWord).put("orderby", orderby);
+        HttpLoader.getInstance(App.context).get(RBConstants.URL_SEARCH, params, SearchResult.class, RBConstants.REQUEST_CODE_SEARCH, this);
+    }
+}

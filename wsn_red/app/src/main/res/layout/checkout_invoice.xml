@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/title_style"
+            android:text="发票信息" />
+
+        <Button
+            android:id="@+id/btn_back_check"
+            android:text="结算中心"
+            style="@style/head_button" />
+    </RelativeLayout>
+
+    <TextView
+    android:textSize="18sp"
+    android:layout_marginLeft="10dp"
+    style="@style/TitleText"
+    android:text="发票抬头" />
+
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl1"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/first_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_checkinvoice_text1"
+            android:text="个人"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv1"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl2"
+        android:background="@drawable/last_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_checkinvoice_text2"
+            android:text="单位"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv2"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <!-- .....................-->
+    <TextView
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        style="@style/TitleText"
+        android:text="发票内容" />
+
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl3"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/first_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="图书"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv3"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl4"
+        android:background="@drawable/middle_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_checkcommon_text2"
+            android:text="音响"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv4"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl5"
+        android:background="@drawable/middle_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="游戏"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv5"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl6"
+        android:background="@drawable/middle_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="软件"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv6"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_checkinvoice_rl7"
+        android:background="@drawable/last_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="资料"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_checkinvoice_iv7"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ok"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

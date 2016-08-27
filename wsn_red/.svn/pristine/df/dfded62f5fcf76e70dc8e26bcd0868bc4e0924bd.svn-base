@@ -1,0 +1,26 @@
+package com.itheima.rbclient.bean;
+
+/**
+ * Created by Administrator on 2016/8/10.
+ */
+public class CommitResponse {
+    /**
+     * orderId : 717693
+     * paymentType : 1
+     * price : 450
+     */
+
+    public OrderInfoBean orderInfo;
+    /**
+     * orderInfo : {"orderId":"717693","paymentType":1,"price":450}
+     * response : orderSubmit
+     */
+
+    public String response;
+
+    public static class OrderInfoBean {
+        public String orderId;
+        public int paymentType;
+        public int price;
+    }
+}

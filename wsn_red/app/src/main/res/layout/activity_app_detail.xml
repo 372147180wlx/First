@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_style"
+            android:text="商品详情" />
+
+        <Button
+            android:id="@+id/bt_detail_back"
+            style="@style/head_back"
+            android:text="返回" />
+
+        <Button
+            android:id="@+id/bt_detail_message"
+            style="@style/head_button"
+            android:layout_alignParentRight="true"
+            android:text="详细信息" />
+    </RelativeLayout>
+
+    <com.itheima.rbclient.LoadStateLayout
+        android:id="@+id/lsl_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/sv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/ll_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@drawable/product_detail_gallery">
+
+                    <LinearLayout
+                        android:id="@+id/ll_detail_screen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="25dp" />
+
+                </HorizontalScrollView>
+
+                <!--详细信息部分-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_detail_name"
+                        style="@style/TitleText"
+                        android:padding="10dp"
+                        android:text="益力健牛乳复合软胶囊900mg*30粒" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_detail_market"
+                            style="@style/TitleText"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="市场价:" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TitleText"
+                                android:layout_width="wrap_content"
+                                android:text="商品评分:" />
+
+                            <RatingBar
+                                android:id="@+id/rb_detail_star"
+                                style="@android:style/Widget.RatingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="14dp"
+                                android:layout_marginTop="6dp"
+                                android:isIndicator="true"
+                                android:progressDrawable="@drawable/ratingbar_progress" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_detail_member"
+                        style="@style/TitleText"
+                        android:layout_marginTop="6dp"
+                        android:padding="10dp"
+                        android:text="会员价："
+                        android:textColor="#f00"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            style="@style/TitleText"
+                            android:layout_width="wrap_content"
+                            android:text="颜色：" />
+
+                        <Spinner
+                            android:id="@+id/sp_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_spi_color" />
+
+                        <TextView
+                            style="@style/TitleText"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="尺码：" />
+
+                        <Spinner
+                            android:id="@+id/sp_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_spi_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <TextView
+                            style="@style/TitleText"
+                            android:text="数量：" />
+
+                        <EditText
+                            android:id="@+id/et_detail_num"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:cursorVisible="false"
+                            android:numeric="integer"
+                            android:singleLine="true"
+                            android:text="1"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--购买服务部分-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <Button
+                        android:id="@+id/bt_add_shop"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_btn_buy"
+                        android:text="加入购物车"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/bt_add_collect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_btn_gallery"
+                        android:text="收藏 "
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_detail_place"
+                    style="@style/TitleText"
+                    android:padding="10dp"
+                    android:text="查看库存：北京仓（有货）" />
+
+                <TextView
+                    android:id="@+id/tv_detail_comment"
+                    style="@style/TitleText"
+                    android:background="@drawable/listview_41bg_normal"
+                    android:padding="10dp"
+                    android:text="用户评论：共有388人评论" />
+            </LinearLayout>
+        </ScrollView>
+    </com.itheima.rbclient.LoadStateLayout>
+</LinearLayout>
